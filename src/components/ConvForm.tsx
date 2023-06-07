@@ -2,20 +2,30 @@ import { useState } from "react";
 import { AvailableCharacter } from './models/index';
 
 function ConvForm() {
-  const initHexColor: AvailableCharacter[] = ['0', '0', '0', '0', '0', '0'];
-  const [hexColor, setHexColor] = useState<AvailableCharacter[]>(initHexColor);
+  const [hexColor, setHexColor] = useState<string>("");
   const rgbColor = "RGB(0, 0, 0)";
-  const valueCharacters = [];
+  const valueCharacters: string[] = [];
   // const availableCharacters: AvailableCharacter[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, a, b, c, d, e, f];
 
-  function handleChangeHex(event: React.ChangeEvent<HTMLInputElement>) {
-    event.target.value.toUpperCase();
-    if (typeof Array.from(event.target.value) === 'AvailableCharacter[]') {
-      setHexColor(event.target.value);
-    }
-    setHexColor(event.target.value);
-
+  function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+    if(['1','2','3','4','5', 'N', 'O', 'A', 'B', 'C'].indexOf(event.key) !== -1){
+      valueCharacters.push(event.key);
+    } else {
+      event.preventDefault();
+    };
+    return valueCharacters;
   };
+
+  function handleChangeHex(event: React.ChangeEvent<HTMLInputElement>) {
+    setHexColor(event.target.value);
+  }
+
+    // const lowerValue = event.target.value.toLowerCase();
+  //   // const arrayValue = Array.from(lowerValue);
+  //   // if (typeof arrayValue === 'AvailableCharacter[]') {
+  //     setHexColor(arrayValue);
+  //   };
+  // };
 
   return (
     <div>
@@ -27,7 +37,8 @@ function ConvForm() {
           type="text"
           maxLength={6} 
           value={hexColor} 
-          onChange={(event) => handleChangeHex(event)} 
+          onKeyDown={handleKeyDown}
+          onChange={handleChangeHex} 
         />
       </label>
       <button name="clear" type="button">Clear</button>
