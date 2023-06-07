@@ -1,34 +1,35 @@
 import { useState } from "react";
-import { AvailableCharacter } from './models/index';
 
 function ConvForm() {
   const [hexColor, setHexColor] = useState<string>("");
   const rgbColor = "RGB(0, 0, 0)";
-  const valueCharacters: string[] = [];
-  // const availableCharacters: AvailableCharacter[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, a, b, c, d, e, f];
+  const allowChars: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
-    if(['1','2','3','4','5', 'N', 'O', 'A', 'B', 'C'].indexOf(event.key) !== -1){
-      valueCharacters.push(event.key);
-    } else {
+    const lowerChar = event.key.toLowerCase();
+    if(allowChars.indexOf(lowerChar) === -1 && event.key !== 'Backspace'){
       event.preventDefault();
     };
-    return valueCharacters;
   };
 
   function handleChangeHex(event: React.ChangeEvent<HTMLInputElement>) {
     setHexColor(event.target.value);
-  }
-
-    // const lowerValue = event.target.value.toLowerCase();
-  //   // const arrayValue = Array.from(lowerValue);
-  //   // if (typeof arrayValue === 'AvailableCharacter[]') {
-  //     setHexColor(arrayValue);
-  //   };
-  // };
+    // let curentColor: string = `{backgroundColor: ${hexColor}}`;
+    if (hexColor.length === 6) {
+      // curentColor = `{backgroundColor: ${hexColor}}`;
+    };
+    // return curentColor;
+  };
 
   return (
-    <div>
+    <div className="container"
+      style={{
+      backgroundColor: rgbColor, // Added variable here 
+      }}
+    >
+    <p>
+      HEX to RGB Color Converter
+    </p>
       <label htmlFor="hexColor">
         Hex color 
         <input 
