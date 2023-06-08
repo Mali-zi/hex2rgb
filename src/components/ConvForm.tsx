@@ -31,8 +31,6 @@ function ConvForm() {
     } else {
       rgbColorMessage = 'Ошибка!';
     }
-
-
   };
 
   return (
