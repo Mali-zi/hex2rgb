@@ -1,7 +1,1 @@
-export interface IUser {
-  name: string;
-  avatar?: string;
-  status: string;
-}
-
-export type AvailableCharacter = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f';
+export type AllowChar = string | number;

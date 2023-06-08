@@ -1,17 +1,17 @@
 import { useState } from "react";
 import Convertor from './Convertor';
-
-type AllowChar = string | number;
+import { AllowChar } from './models/index';
 
 function ConvForm() {
   const [hexColor, setHexColor] = useState<string>("");
-  let rgbColor = "rgb(100, 100, 100)";
-  let darkRgbColor = "rgb(50, 50, 50)";
-  const allowChars: AllowChar[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
+  let rgbColor = "rgb(236, 40, 60)";
+  let rgbColorMessage = rgbColor;
+  let darkRgbColor = "rgb(118, 20, 30)";
+  const allowChars: AllowChar[] = ['#', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     const lowerChar = event.key.toLowerCase();
-    if(allowChars.indexOf(lowerChar) === -1 && event.key !== 'Backspace'){
+    if(allowChars.indexOf(lowerChar) === -1 && event.key !== 'Backspace' && event.key !== 'Delete' && event.key !== 'End'){
       event.preventDefault();
     };
   };
@@ -20,11 +20,18 @@ function ConvForm() {
     setHexColor(event.target.value);
   };
 
+  let cutHexColor = '';
+  if (hexColor.length === 7) {
+    if (hexColor[0] === '#') {
+      cutHexColor = hexColor.slice(1).toLowerCase();
+      const newRgbColor = Convertor(cutHexColor);
+      rgbColor = `rgb(${newRgbColor[0]}, ${newRgbColor[1]}, ${newRgbColor[2]})`;
+      rgbColorMessage = rgbColor;
+      darkRgbColor = `rgb(${newRgbColor[0] / 2}, ${newRgbColor[1] / 2}, ${newRgbColor[2] / 2})`;
+    } else {
+      rgbColorMessage = 'Ошибка!';
+    }
 
-  if (hexColor.length === 6) {
-    const newRgbColor = Convertor(hexColor);
-    rgbColor = `rgb(${newRgbColor[0]}, ${newRgbColor[1]}, ${newRgbColor[2]})`;
-    darkRgbColor = `rgb(${newRgbColor[0] / 2}, ${newRgbColor[1] / 2}, ${newRgbColor[2] / 2})`;
 
   };
 
@@ -41,10 +48,9 @@ function ConvForm() {
         HEX to RGB Color Converter
       </div>
       <input 
-        id="hexColor" 
         name="hexColor" 
         type="text"
-        maxLength={6} 
+        maxLength={7} 
         className="colorInput"
         style={{color: darkRgbColor, backgroundColor: 'white'}}
         value={hexColor} 
@@ -52,12 +58,11 @@ function ConvForm() {
         onChange={handleChangeHex} 
       />
       <input 
-        id="rgbColor" 
         name="rgbColor" 
         type="text" 
         className="colorInput"
         style={{color: "white", backgroundColor: darkRgbColor}}
-        value={rgbColor} 
+        value={rgbColorMessage} 
       />
     </div>
   )

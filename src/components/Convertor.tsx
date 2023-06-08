@@ -1,4 +1,4 @@
-type AllowChar = string | number;
+import { AllowChar } from './models/index';
 
 export default function Convertor(hexColor: string) {
   const arrHexColor: AllowChar[] = Array.from(hexColor);
@@ -6,19 +6,22 @@ export default function Convertor(hexColor: string) {
   const numArrHexColor = arrHexColor.map(item => {
     if (!Number.isNaN(item)) {
       if (item === 'a') {
-        item = 11;
+        item = 10;
       };
       if (item === 'b') {
-        item = 12;
+        item = 11;
       };
       if (item === 'c') {
-        item = 14;
+        item = 12;
       };
       if (item === 'd') {
-        item = 15;
+        item = 13;
+      };
+      if (item === 'e') {
+        item = 14;
       };
       if (item === 'f') {
-        item = 16;
+        item = 15;
       };
     };
     return Number(item);
