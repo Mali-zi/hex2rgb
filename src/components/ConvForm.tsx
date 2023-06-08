@@ -1,10 +1,12 @@
 import { useState } from "react";
+import Convertor from './Convertor';
 
 type AllowChar = string | number;
 
 function ConvForm() {
   const [hexColor, setHexColor] = useState<string>("");
-  let rgbColor = "RGB(100, 100, 100)";
+  let rgbColor = "rgb(100, 100, 100)";
+  let darkRgbColor = "rgb(50, 50, 50)";
   const allowChars: AllowChar[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -18,45 +20,12 @@ function ConvForm() {
     setHexColor(event.target.value);
   };
 
-  function newRgbColor() {
-    const arrHexColor: AllowChar[] = Array.from(hexColor);
-
-    const numArrHexColor = arrHexColor.map(item => {
-      if (!Number.isNaN(item)) {
-        if (item === 'a') {
-          item = 11;
-        };
-        if (item === 'b') {
-          item = 12;
-        };
-        if (item === 'c') {
-          item = 14;
-        };
-        if (item === 'd') {
-          item = 15;
-        };
-        if (item === 'f') {
-          item = 16;
-        };
-      };
-      return Number(item);
-    });
-
-    const newRgbColor: number[] = [0, 0 , 0];
-    for (let i=0; i < 3; i++) {
-      newRgbColor[i] = numArrHexColor[i * 2] * 16 + numArrHexColor[i * 2 + 1];
-    };
-    alert(newRgbColor);
-
-    rgbColor = `RGB(${newRgbColor[0]}, ${newRgbColor[1]}, ${newRgbColor[2]})`;
-    alert(rgbColor);
-    return (
-      rgbColor
-    );
-  };
 
   if (hexColor.length === 6) {
-    newRgbColor();
+    const newRgbColor = Convertor(hexColor);
+    rgbColor = `rgb(${newRgbColor[0]}, ${newRgbColor[1]}, ${newRgbColor[2]})`;
+    darkRgbColor = `rgb(${newRgbColor[0] / 2}, ${newRgbColor[1] / 2}, ${newRgbColor[2] / 2})`;
+
   };
 
   return (
@@ -65,32 +34,31 @@ function ConvForm() {
       backgroundColor: rgbColor,
       }}
     >
-    <p>
-      HEX to RGB Color Converter
-    </p>
-    <form>
-      <label htmlFor="hexColor">
-          Hex color #
-          <input 
-            id="hexColor" 
-            name="hexColor" 
-            type="text"
-            maxLength={6} 
-            value={hexColor} 
-            onKeyDown={handleKeyDown}
-            onChange={handleChangeHex} 
-          />
-        </label>
-      </form>
-      <label htmlFor="rgbColor">
-        RGB color 
-        <input 
-          id="rgbColor" 
-          name="rgbColor" 
-          type="text" 
-          value={rgbColor} 
-        />
-      </label>
+      <div 
+        className="title"
+        style={{color: "white", backgroundColor: darkRgbColor}}
+      >
+        HEX to RGB Color Converter
+      </div>
+      <input 
+        id="hexColor" 
+        name="hexColor" 
+        type="text"
+        maxLength={6} 
+        className="colorInput"
+        style={{color: darkRgbColor, backgroundColor: 'white'}}
+        value={hexColor} 
+        onKeyDown={handleKeyDown}
+        onChange={handleChangeHex} 
+      />
+      <input 
+        id="rgbColor" 
+        name="rgbColor" 
+        type="text" 
+        className="colorInput"
+        style={{color: "white", backgroundColor: darkRgbColor}}
+        value={rgbColor} 
+      />
     </div>
   )
 };

@@ -20,3 +20,20 @@ body {
   color: white;
 }
 
+.title {
+  margin-bottom: 40px;
+  padding: 10px;
+  background-color: #ffffff;
+  color: brown;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.colorInput {
+  margin: 5px;
+  width: 250px;
+  height: 40px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  text-align: center;
+}
